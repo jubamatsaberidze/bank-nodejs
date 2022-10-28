@@ -10,6 +10,14 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
     },
+    bitcoinAmount: {
+        type: Number,
+        default: 0,
+    },
+    usdBalance: {
+        type: Number,
+        default: 0,
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', UserSchema)

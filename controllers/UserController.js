@@ -26,3 +26,16 @@ exports.getUserById = async (req, res) => {
         res.status(400).json({ message: error.message })
     }
 }
+
+exports.updateUserById = async (req, res) => {
+    const { id } = req.params;
+    const { name, username, email } = req.body;
+    const updated = await User.findByIdAndUpdate( id, {
+        name, username, email
+    });
+    try {
+        return await this.getUserById(req, res)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
