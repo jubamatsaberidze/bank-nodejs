@@ -6,6 +6,7 @@ const BitcoinController = require('../controllers/BitcoinController');
 module.exports = (app) => {
    router.route('/users/:id')
      .get(UserController.getUserById)
+     .put(UserController.updateUserById)
 
    router.post('/users', UserController.addUser)
    router.route('/bitcoin')
