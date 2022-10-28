@@ -21,7 +21,7 @@ exports.getUserById = async (req, res) => {
     // console.log('HERE', `${id}`.red.underline.bold)
     const user = await User.findById(id)
     try {
-        res.status(200).json(user)
+        return res.status(200).json(user)
     } catch (error) {
         res.status(400).json({ message: error.message })
     }
