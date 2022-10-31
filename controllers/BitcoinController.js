@@ -8,15 +8,16 @@ exports.updateBitcoin = async (req, res) => {
         );
         return await this.getBitcoin(req, res)
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).send({ message: error.message })
     }
 }
 
 exports.getBitcoin = async (req, res) => {
     const bitcoin = await Bitcoin.findOne()
+    const { price, updatedAt } = bitcoin
     try {
-        res.status(200).json(bitcoin)
+        return res.status(200).json({ price, updatedAt })
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        return res.status(400).send({ message: error.message })
     }
 }

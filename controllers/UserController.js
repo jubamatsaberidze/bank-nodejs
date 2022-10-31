@@ -7,23 +7,23 @@ exports.addUser = async (req, res) => {
         username,
         email,
     })
+    if (!name || !username || !email) return res.status(400).send({ message: 'All Fields are Required.' })
     try {
         const newUser = await user.save();
-        res.status(201).json(newUser)
+        res.status(201).send(newUser)
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).send({ message: error.message })
     }
 
 }
 
 exports.getUserById = async (req, res) => {
     const { id } = req.params;
-    // console.log('HERE', `${id}`.red.underline.bold)
     const user = await User.findById(id)
     try {
         return res.status(200).json(user)
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).send({ message: error.message })
     }
 }
 
@@ -36,6 +36,6 @@ exports.updateUserById = async (req, res) => {
     try {
         return await this.getUserById(req, res)
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).send({ message: error.message })
     }
 }
