@@ -75,3 +75,16 @@ exports.tradeBitcoin = async (req, res) => {
         return res.status(400).send({ message: error.message })
     }
 }
+
+exports.checkBalance = async (req, res) => {
+    const { userId } = req.params;
+    const { usdBalance, bitcoinAmount} = await User.findById(userId);
+    const { price: bitcoinValue } = await Bitcoin.findOne();
+
+    const BALANCE = usdBalance  + (bitcoinAmount * bitcoinValue)
+    try {
+        return res.status(200).send({ message: `Your Balance is $${BALANCE}`})
+    } catch (error) {
+        return res.status(400).send({ message: error.message })
+    }
+}
