@@ -4,6 +4,12 @@ const Bitcoin = require('../models/Bitcoin')
 exports.changeUsd = async (req, res) => {
     const { userId } = req.params;
     const { action, amount } = req.body;
+    if (!action || !amount) {
+        return res.status(400).send({ message: 'All Fields are Required.' })
+    } 
+    if (typeof amount != "number") {
+        return res.status(400).send({ message: 'Amount should be numeric' })
+    }
     if (action === 'withdraw') {
         const currentUser = await User.find({ _id: userId})
         const { usdBalance : currentBalance } = currentUser[0]
@@ -16,14 +22,15 @@ exports.changeUsd = async (req, res) => {
             usdBalance: -amount
           }     
         });
-    }
-    if (action === 'deposit') {
+    } else if (action === 'deposit') {
         await User.updateOne(
         { _id: userId }, 
         { $inc: {
             usdBalance: amount
           }     
         });
+    } else {
+        return res.status(400).send({ message: 'action should be WITHDRAW or DEPOSIT' })
     }
     try {
         const user = await User.findById(userId);
@@ -41,6 +48,12 @@ exports.tradeBitcoin = async (req, res) => {
     const { usdBalance : currentUSDBalance } = currentUser[0]
     const { bitcoinAmount : currentBCBalance } = currentUser[0]
     try {
+    if (!action || !amount) {
+        return res.status(400).send({ message: 'All Fields are Required.' })
+    } 
+    if (typeof amount != "number") {
+        return res.status(400).send({ message: 'Amount should be numeric' })
+    }
     if (action === "buy") {
         if (currentUSDBalance < bitcoinValue * amount) {
             return res.status(400).send({ message: 'Not Enough USD Balance'})
@@ -54,8 +67,7 @@ exports.tradeBitcoin = async (req, res) => {
               }     
             }
         );
-    }
-    if (action === "sell") {
+    } else if (action === "sell") {
         if (currentBCBalance < amount) {
             return res.status(400).send({ message: 'Not Enough BC Balance'})
         }
@@ -68,6 +80,8 @@ exports.tradeBitcoin = async (req, res) => {
               }     
             }
         );
+    } else {
+        return res.status(400).send({ message: 'action should be BUY or SELL' })
     }
         const user = await User.findById(userId);
         return res.status(201).send(user)

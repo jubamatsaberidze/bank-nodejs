@@ -2,6 +2,9 @@ const Bitcoin = require('../models/Bitcoin')
 
 exports.updateBitcoin = async (req, res) => {
     const { price } = req.body;
+    if(!price || typeof price !== 'number') {
+        return res.status(400).send({ message: 'Invalid Type' })
+    }
     try {
         await Bitcoin.updateOne(
             { $set: { price } }
