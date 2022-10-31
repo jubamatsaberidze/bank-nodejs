@@ -27,7 +27,7 @@ exports.changeUsd = async (req, res) => {
     }
     try {
         const user = await User.findById(userId);
-        return res.status(200).send(user)
+        return res.status(201).send(user)
     } catch (error) {
         res.status(400).send({ message: error.message })
     }
@@ -70,7 +70,7 @@ exports.tradeBitcoin = async (req, res) => {
         );
     }
         const user = await User.findById(userId);
-        return res.status(200).send(user)
+        return res.status(201).send(user)
     } catch {
         return res.status(400).send({ message: error.message })
     }
