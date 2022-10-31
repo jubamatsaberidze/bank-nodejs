@@ -11,6 +11,7 @@ module.exports = (app) => {
 
    router.post('/users', UserController.addUser)
    router.post('/users/:userId/usd', MoneyController.changeUsd)
+   router.post('/users/:userId/bitcoins', MoneyController.tradeBitcoin)
 
    router.route('/bitcoin')
      .get(BitcoinController.getBitcoin)
